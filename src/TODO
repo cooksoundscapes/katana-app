@@ -1,0 +1,27 @@
+right hand menu::
+    delete track | all (from DB, too);
+    playing groups table::
+        stop group + stop all;
+    parameter locks(per track + slice index) table::
+        pitch;
+        reverse;
+        duration;
+        autorepeat;
+        FX;
+    sample bank - how to search samples on the web?
+recording box::
+    timeline;
+    render to wav;
+slice offset: handlers between slices
+Midi Support;
+save/load json file | link share;
+
+
+webpack dev server;                     OK
+start/end point;                        OK
+groups;                                 OK
+keyboard support;                       OK
+Reverse: invert start / end points;     OK
+BPM;                                    OK
+Master Vol.;                            OK
+indexedDB: auto restore session;        OK FOR CLIPS
