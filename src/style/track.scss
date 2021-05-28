@@ -3,11 +3,6 @@
 $track_width: 70vw;
 $track_height: 150px;
 
-@mixin stripes($color1, $color2,$segment) {
-    background: repeating-linear-gradient(to right, $color2, $color2 1px, $color1 1px, $color1 $segment);
-}
-
-
 .track {
     position: relative;
 	margin-top: 1px;

@@ -17,10 +17,4 @@ menu.appendChild(createSpan('0.00dB','decibels'));
 function openRecording() {
     const modal = document.querySelector('.recording');
     modal.style.display = 'block';
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = 'none';
-            window.onclick = null;
-        }
-    }
 }

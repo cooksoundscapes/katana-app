@@ -14,6 +14,10 @@ body {
 	background-color: black;
 }
 
+@mixin stripes($color1, $color2,$segment) {
+    background: repeating-linear-gradient(to right, $color2, $color2 1px, $color1 1px, $color1 $segment);
+}
+
 @mixin obj_defaults {
     display: inline-block;
     box-sizing: content-box;

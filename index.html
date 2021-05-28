@@ -11,7 +11,18 @@
 <body>
     <div class='recording'>
         <div class='record_box'>
-
+            <script>
+            function closeRecording() {
+                const modal = document.querySelector('.recording');
+                modal.style.display = 'none';
+            }
+            </script>
+            <span> Record using your mic or audio interface </span>
+            <span class='material-icons-outlined close' onclick='closeRecording()'>close</span>
+            <hr>
+            <canvas id='record_plot' width=200 height=160></canvas>
+            <button class='record_button'>&#9679</button>
+            <button>create track</button>
         </div>
     </div>
 	<nav class="nav_menu">
