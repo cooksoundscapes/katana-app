@@ -1,3 +1,3 @@
 export function getInputSources() {
-    console.log(navigator.MediaDevices);
+    console.log(navigator.getMediaDevices);
 }

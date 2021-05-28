@@ -10,6 +10,11 @@ $div_gray: #353534;
 	font-family: 'Sans';
 }
 
+button:active {
+    border: none;
+    outline: none;
+}
+
 body {
 	background-color: black;
 }
