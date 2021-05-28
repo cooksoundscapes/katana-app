@@ -6,8 +6,9 @@ import './idb.js';
 import './style/style.scss';
 import './style/nav_menu.scss';
 import './style/track.scss';
+import './style/record_window.scss';
 
-let fileloader = document.getElementById('fileloader');
+let fileloader = document.querySelector('.fileloader');
 fileloader.addEventListener('change',files => {
     let file_list = files.target.files;
 	file_list = [...file_list];

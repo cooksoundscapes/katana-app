@@ -1,3 +1,28 @@
+More fixes:
+SAMPLE PACKS!!!
+
+sample recording from mic;
+grid launching;
+    compass setup | visualization;
+
+better sync***
+    para descobrir o divisor, basta dividir os beats por 2 até que seja <= 2!!!!!
+    daí dividir duração do clip pelo divisor ate que seja menor que 900ms (75bpm +-);
+
+samplebank:
+    > metatag filtering;
+        > oneshot | loop | slice;
+        > mood tags;
+    > estimated bpm;
+    > preview listen;
+
+sequence box:
+    > div que rola pra baixo da track;
+    > empurra tudo pra baixo;
+    > sequence bank (mais simples que samplebank);
+    > random sequences;
+
+-----------------------------------------------------
 right hand menu::
     delete track | all (from DB, too);
     playing groups table::

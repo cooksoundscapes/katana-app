@@ -2,8 +2,11 @@ var path = require('path');
 
 module.exports = {
   //...
+  output: {
+     path: path.resolve(__dirname, '.'),
+   },
   devServer: {
-    contentBase: path.join(__dirname, 'dist'),
+    contentBase: path.join(__dirname, '.'),
     compress: true,
     port: 8000,
   },
@@ -17,13 +20,6 @@ module.exports = {
           'sass-loader'
         ]
       },
-      {
-        test: /\.css$/,
-        use: [
-          'style-loader',
-          'css-loader'
-        ]
-      }
     ]
   }
 };

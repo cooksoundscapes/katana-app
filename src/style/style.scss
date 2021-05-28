@@ -4,6 +4,7 @@ $light_gray: #888877;
 $div_gray: #353534;
 
 * {
+    box-sizing: border-box;
 	padding: 0;
 	margin: 0;
 	font-family: 'Sans';
@@ -28,6 +29,7 @@ body {
     color: white;
     vertical-align: middle;
     overflow: hidden;
+    user-select: none;
 }
 
 select, .filename {
@@ -42,7 +44,7 @@ select, .filename {
     margin-left: 2px;
     input {
         @include obj_defaults;
-        cursor: grab;
+        cursor: n-resize;
         -moz-appearance: textfield; /* Firefox */
         &::-webkit-outer-spin-button,
         &::-webkit-inner-spin-button {
@@ -52,13 +54,12 @@ select, .filename {
     }
 }
 
-.slider {
+.slider_container {
     display: inline-block;
     input {
         -webkit-appearance: none;
         &::-webkit-slider-thumb {
             -webkit-appearance: none;
-            appearance: none;
         }
     }
 }

@@ -40,10 +40,28 @@ export function createSlider(content,classname, range, step, ev, init) {
     slider.step = step;
     slider.value = init;
 	slider.addEventListener('input',ev);
-    label.className = 'slider';
+    label.className = 'slider_container';
     label.textContent = content;
     label.appendChild(slider);
 	return label;
+}
+
+export function sliderRuleMarks(object,step_mult) {
+    const range_obj = object.querySelector('input');
+    const min = parseFloat(range_obj.getAttribute('min'));
+    const max = parseFloat(range_obj.getAttribute('max'));
+    const step = parseFloat(range_obj.getAttribute('step'));
+    const listname = range_obj.className + '_list';
+    const tick_marks = document.createElement('datalist');
+    tick_marks.id = listname;
+    let tick;
+    for (let i = min; i <= max; i += step*step_mult) {
+        tick = document.createElement('option');
+        tick.textContent = i;
+        tick_marks.appendChild(tick);
+    }
+    object.appendChild(tick_marks);
+    range_obj.setAttribute('list', listname);
 }
 
 export function createNumberBox(content, classname, range, ev, init) {
@@ -69,8 +87,7 @@ function verticalDrag(dragev) {
     last_y = Number.isNaN(last_y) ? obj.min : last_y;
     let change;
     window.onmousemove = moveev => {
-        document.body.style.cursor = 'grabbing';
-        obj.style.cursor = 'grabbing';
+        document.body.style.cursor = 'n-resize';
         moveev.preventDefault();
         change = Math.trunc(last_y - (.2*moveev.clientY));
         obj.value = Math.min(obj.max,Math.max(obj.min,change));
@@ -78,7 +95,6 @@ function verticalDrag(dragev) {
     }
     window.onmouseup = () => {
         document.body.style.cursor = 'default';
-        obj.style.cursor = 'grab';
         window.onmousemove = null;
         window.onmouseup = null;
     }
