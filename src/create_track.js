@@ -21,8 +21,10 @@ import setKeyRow from './keyboard_events.js';
 
 let tracks_total = 0;
 
-function deleteTrack() {
-    const track = this.closest('.track');
+export function deleteTrack(event) {
+    let track;
+    if (event instanceof Event) track = event.target.closest('.track');
+    else track = event;
     const group = track.querySelector('.set_group').value;
     cancelAnimationFrame(window[group+'_anim']);
     let request = OpenIDBRequest();

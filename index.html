@@ -21,8 +21,10 @@
             <span class='material-icons-outlined close' onclick='closeRecording()'>close</span>
             <hr>
             <canvas id='record_plot' width=200 height=160></canvas>
+            <select class='audio_devices'></select>
             <button class='record_button'>&#9679</button>
-            <button>create track</button>
+            <button class='track_from_rec'>create track</button>
+            <audio id='player' controls />
         </div>
     </div>
 	<nav class="nav_menu">

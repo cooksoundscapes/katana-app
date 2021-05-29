@@ -41,6 +41,20 @@ body {
     user-select: none;
 }
 
+@mixin orange_button {
+    margin-right: 2px;
+    background: orange;
+    border: none;
+    border-radius: 6px;
+    color: black;
+    width: 50px;
+    transition: .2s;
+    opacity: .8;
+    &:hover {
+        opacity: 1;
+    }
+}
+
 select, .filename {
     @include obj_defaults;
     overflow: hidden;

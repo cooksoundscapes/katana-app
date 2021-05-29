@@ -1,3 +1,5 @@
+@use 'style' as *;
+
 @mixin default_button {
 	position: relative;
 	display: inline-block;
@@ -41,6 +43,12 @@
 
 .open_record_box {
     @include default_button;
+}
+
+.delete_all {
+    @include orange_button;
+    width: auto;
+    padding: 2px;
 }
 
 .master_volume {

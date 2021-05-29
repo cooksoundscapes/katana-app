@@ -53,3 +53,9 @@
         height: 160px;
     }
 }
+
+.track_from_rec {
+    @include orange_button;
+    padding: 2px;
+    width: auto;
+}

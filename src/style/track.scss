@@ -25,18 +25,8 @@ $track_height: 150px;
 
     .delete_track {
         @include obj_defaults;
+        @include orange_button;
         float: right;
-        margin-right: 2px;
-        background: orange;
-        border: none;
-        border-radius: 6px;
-        color: black;
-        width: 50px;
-        transition: .2s;
-        opacity: .8;
-        &:hover {
-            opacity: 1;
-        }
     }
     div {display: inline-block;}
 }
