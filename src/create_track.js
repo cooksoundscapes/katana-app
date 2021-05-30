@@ -19,7 +19,7 @@ import {OpenIDBRequest,
 import waveDraw from './wave_draw.js';
 import setKeyRow from './keyboard_events.js';
 
-let tracks_total = 0;
+export let tracks_total = 0;
 
 export function deleteTrack(event) {
     let track;
@@ -48,7 +48,6 @@ export default function createTrack(file) {
     const track_menu = document.createElement('div');
     const filename = document.createElement('blockquote');
     const sliders_frame = document.createElement('div');
-    const wave_frame = document.createElement('div');
     const canvas = document.createElement('canvas');
     updateDb(file,id);
     const reader = new FileReader();
@@ -83,9 +82,7 @@ export default function createTrack(file) {
     track_menu.className = 'track_menu';
     track.appendChild(track_menu);
     sliders_frame.className = 'trim_frame';
-    wave_frame.className = 'wave_frame';
     track.appendChild(sliders_frame);
-    track.appendChild(wave_frame);
     // End of command bar;
 	document.body.appendChild(track);
     //those actions needs track appended on body;

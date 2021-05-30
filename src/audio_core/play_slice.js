@@ -20,6 +20,7 @@ export default function PlaySlice() {
     let position;
     let last_pos;
     let offset = audioctx.currentTime;
+    const debug = document.querySelector('.debug');
     updateParams();
     playStart();
 
@@ -35,7 +36,7 @@ export default function PlaySlice() {
         if (Players[group]) {
             Players[group].playbackRate.value = rate;
             Players[group].loopStart = start_point;
-            Players[group].loopEnd = length;
+            Players[group].loopEnd = end_point;
         }
         frame = audioctx.currentTime-offset + start_slice;
     }
