@@ -7,6 +7,7 @@
 	<meta name='description' content="Chop samples to bits. Banzai!" />
 	<meta name='theme-color' content='#101010' />
     <link href='https://fonts.googleapis.com/css?family=Material+Icons+Outlined' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Material+Icons' rel='stylesheet'>
 <head>
 <body>
     <div class='recording'>
@@ -22,9 +23,16 @@
             <hr>
             <canvas id='record_plot' width=200 height=160></canvas>
             <select class='audio_devices'></select>
-            <button class='record_button'>&#9679</button>
+            <button class='record_button material-icons'>stop_circle</button>
+            <button class='play_recorded material-icons-outlined'>play_circle</button>
             <button class='track_from_rec'>create track</button>
-            <audio id='player' controls />
+            <fieldset class='browser_fx'>
+                <legend>Browser Sound Effects</legend>
+                <label>
+                Noise Supressor
+                <input type='checkbox' />
+                </label>
+            </fieldset>
         </div>
     </div>
 	<nav class="nav_menu">

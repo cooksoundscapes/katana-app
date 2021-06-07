@@ -26,7 +26,7 @@ export function createDropdown(classname,items,ev,selected) {
         selector.appendChild(option);
     });
     selector.className = classname;
-    selector.addEventListener('change',ev);
+    selector.onchange = ev;
     return selector;
 }
 

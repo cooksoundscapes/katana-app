@@ -7,7 +7,7 @@ grid launching;
 
 better sync***
     para descobrir o divisor, basta dividir os beats por 2 até que seja <= 2!!!!!
-    daí dividir duração do clip pelo divisor ate que seja menor que 900ms (75bpm +-);
+    daí dividir duração do clip pelo divisor ate que seja menor que 8   00ms (75bpm +-);
 
 samplebank:
     > metatag filtering;

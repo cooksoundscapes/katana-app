@@ -4,6 +4,7 @@ const Clips = {};
 const Players = {};
 
 import {tracks_total} from '../create_track.js';
+import waveDraw from '../wave_draw.js';
 
 export function debug() {
     console.log(Clips);

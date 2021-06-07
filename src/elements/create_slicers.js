@@ -18,6 +18,8 @@ export function createSlicers(track,divisions) {
         slicer.onclick = PlaySlice;
         track.appendChild(slicer);
     }
+    const grid_select = track.querySelector('.keyrow');
+    grid_select.onchange();
 }
 
 export function setSlices () {

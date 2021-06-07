@@ -1,21 +1,35 @@
 import playSlice from './audio_core/play_slice.js';
 
-const qwert = ['q','w','e','r','t','y','u','i','o','p'];
-const asdf =  ['a','s','d','f','g','h','j','k','l','ç'];
-const zxcv = ['z','x','c','v','b','n','m',',','.',';'];
+const Grid = {
+    0: null,
+    1: ['q','w','e','r','t','y','u','i','o','p'],
+    2: ['a','s','d','f','g','h','j','k','l','ç'],
+    3: ['z','x','c','v','b','n','m',',','.',';']
+};
 
-export default function setKeyRow () {
-    return;
+export default function setKeyRow() {
+    const track = this.closest('.track');
+    const slices = track.querySelectorAll('.slicer');
+    const selectedRow = this.selectedIndex;
+    let sliceIndex;
+    slices.forEach(slice => {
+        if (!Grid[selectedRow]) {
+            slice.textContent = null;
+        } else {
+            sliceIndex = slice.getAttribute('index');
+            slice.textContent = Grid[selectedRow][sliceIndex];
+        }
+    });
 }
 
 function gridCoords (key) {
     let coords;
-    if (qwert.includes(key)) {
-        coords = [0,qwert.findIndex(val => val === key)];
-    } else if (asdf.includes(key)) {
-        coords = [1,asdf.findIndex(val => val === key)];
-    } else if (zxcv.includes(key)) {
-        coords = [2,zxcv.findIndex(val => val === key)];
+    if (Grid[1].includes(key)) {
+        coords = [0,Grid[1].findIndex(val => val === key)];
+    } else if (Grid[2].includes(key)) {
+        coords = [1,Grid[2].findIndex(val => val === key)];
+    } else if (Grid[3].includes(key)) {
+        coords = [2,Grid[3].findIndex(val => val === key)];
     }
     return coords;
 }
@@ -30,7 +44,6 @@ window.addEventListener('keypress', pressed => {
         if (box.selectedIndex - 1 === pressed[0]) {
             slice = box.closest('.track').querySelectorAll('.slicer')[pressed[1]];
             if (!slice) return;
-            slice.style.opacity = .5;
             slice.onclick();
         }
     });

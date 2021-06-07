@@ -1,10 +1,9 @@
 "use strict";
 
 import createTrack from './create_track.js';
-import {getInputSources,
-        startRecording} from './audio_core/audio_inputs.js';
 import './populate_nav_menu.js';
 import './idb.js';
+import './record_functions.js';
 import './style/style.scss';
 import './style/nav_menu.scss';
 import './style/track.scss';
@@ -28,7 +27,3 @@ window.addEventListener("drop",function(event) {
 	file_list.forEach(createTrack);
 },false);
 
-(getInputSources)();
-
-const rec_btn = document.querySelector('.record_button');
-rec_btn.addEventListener('click',startRecording);

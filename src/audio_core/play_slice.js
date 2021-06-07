@@ -58,12 +58,12 @@ export default function PlaySlice() {
         } else if (play_style === 'Slice') {
             length = length / slice_count;
             Players[group].start(0,start_point + start_slice, length);
-            setTimeout(() => slice.style.opacity = null, length*1000);
+            setTimeout(() => slice.style.setProperty('background', 'transparent'), length*1000);
             return;
         } else { //OneShot
             Players[group].start(0,start_point + start_slice, length - start_slice);
         }
-        all_slices.forEach(slc => {slc.style.opacity = null;});
+        all_slices.forEach(slice => {slice.style.setProperty('background', 'transparent');});
         cancelAnimationFrame(window[anim]);
         window[anim] = requestAnimationFrame(animationLoop);
     }
@@ -76,7 +76,7 @@ export default function PlaySlice() {
                 frame = 0;
                 start_slice = 0;
     		} else {
-                all_slices.forEach(slice => {slice.style.opacity = null;});
+                all_slices.forEach(slice => {slice.style.setProperty('background', 'transparent');});
                 cancelAnimationFrame(window[anim]);
                 return;
             }
@@ -88,8 +88,8 @@ export default function PlaySlice() {
         } else {
             last_pos = (position == 0 ? slice_count : position) - 1;
         }
-        all_slices[position].style.opacity = .35;
-        all_slices[last_pos].style.opacity = null;
+        all_slices[position].style.setProperty('background', 'rgba(255,255,255,0.35)');
+        all_slices[last_pos].style.setProperty('background', 'transparent');
 		cancelAnimationFrame(window[anim]);
 		window[anim] = requestAnimationFrame(animationLoop);
 	}

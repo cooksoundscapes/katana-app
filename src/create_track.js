@@ -50,16 +50,17 @@ export default function createTrack(file) {
     const sliders_frame = document.createElement('div');
     const canvas = document.createElement('canvas');
     updateDb(file,id);
+
     const reader = new FileReader();
     reader.readAsArrayBuffer(file);
     reader.onloadend = function() {
         let arrayBuffer = reader.result;
-        audioctx.decodeAudioData(arrayBuffer).then(audioBuffer => {
+        audioctx.decodeAudioData(arrayBuffer)
+        .then(audioBuffer => {
         Clips[id] = audioBuffer;
         waveDraw(Clips[id].getChannelData(0),canvas);
         },err => {
             console.log("Unable to load file.");
-            loader.remove();
         }).finally( () => {
             loader.remove();
         });

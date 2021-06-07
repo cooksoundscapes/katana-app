@@ -1,4 +1,4 @@
-$base_gray: #404038;
+$base_gray: #212121;
 $obj_gray: #303030;
 $light_gray: #888877;
 $div_gray: #353534;
@@ -19,8 +19,14 @@ body {
 	background-color: black;
 }
 
-@mixin stripes($color1, $color2,$segment) {
-    background: repeating-linear-gradient(to right, $color2, $color2 1px, $color1 1px, $color1 $segment);
+@function stripes($color1, $color2,$segment) {
+    @return repeating-linear-gradient(to right, $color2, $color2 1px, $color1 1px, $color1 $segment);
+}
+
+@function checkered($color1, $color2,$segment) {
+    $color1: rgba($color1,.5);
+    $color2: rgba($color2,.5);
+    @return repeating-linear-gradient(to bottom, $color2, $color2 1px, $color1 1px, $color1 $segment), repeating-linear-gradient(to right, $color2, $color2 1px, $color1 1px, $color1 $segment);
 }
 
 @mixin obj_defaults {
@@ -93,7 +99,7 @@ select, .filename {
     height: 15px;
     border: none;
     border-radius: 4px;
-    background: $light_gray;
+    background: #c67100;
     color: black;
     padding: 0;
     input {
@@ -108,15 +114,14 @@ select, .filename {
         height: 100%;
         transition: .2s;
         &:hover {
-            background: lightgray;;
+            background: #ffe97d;
         }
     }
     input:checked + span {
         background: orange;
         color: black;
+        &:hover {
+            background: #ffe97d;
+        }
     }
-}
-
-.idbtest {
-    display: block;
 }

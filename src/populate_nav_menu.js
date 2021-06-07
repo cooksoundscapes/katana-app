@@ -8,6 +8,8 @@ import {setBPM} from './audio_core/sync_tempo.js';
 import {setMasterVol} from './audio_core/audio_base.js';
 import {deleteTrack} from './create_track.js';
 
+import {startRecStream} from './audio_core/audio_inputs.js';
+
 const menu = document.querySelector('.nav_menu');
 menu.appendChild(createButton('Record Now','open_record_box',openRecording));
 menu.appendChild(createNumberBox('BPM:','set_bpm',[30,600],setBPM,120));
@@ -17,6 +19,7 @@ menu.appendChild(createSpan('0.00dB','decibels'));
 menu.appendChild(createButton('Delete All','delete_all',deleteAllTracks));
 
 function openRecording() {
+    startRecStream();
     const modal = document.querySelector('.recording');
     modal.style.display = 'block';
 }

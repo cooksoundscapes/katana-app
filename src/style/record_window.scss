@@ -19,10 +19,11 @@
     height: 60%;
     padding: 4px;
     color: white;
-    background: $div_gray;
+    background: $base_gray;
     border: 1px solid white;
     border-radius: 6px;
     box-shadow: rgba(20,20,40,20) 0px 6px 15px;
+    align-items: top;
     .close {
         opacity: .5;
         float: right;
@@ -31,27 +32,59 @@
         &:hover,
         &:focus {opacity: 1}
     }
+    .play_recorded {
+        height: 26px;
+        color: #00dd00;
+        border: none;
+        background: transparent;
+        transition: .2s;
+        &:hover,
+        &:focus{
+            transform: scale(1.1);
+        }
+        &:disabled {
+            opacity: .2;
+        }
+    }
     .record_button {
-        padding: 4px;
-        padding-top: 2px;
+        height: 30px;
         color: red;
         border-radius: 4px;
         border: 2px solid red;
         background: transparent;
         transition: .2s;
-        &:hover{
+        &:hover,
+        &:focus{
             transform: scale(1.1);
+        }
+        &[state="recording"] {
+            animation: recBlink .5s linear infinite;
         }
     }
     canvas {
         display: block;
-        margin: 4px;
+        margin: 2%;
         border: 1px solid #303030;
         border-radius: 4px;
-        @include stripes($light_gray,#707070,10px);
-        width: 200px;
+        background: checkered(#353535,#555,20px);
+        width: 96%;
         height: 160px;
     }
+    .browser_fx {
+        font-size: .8em;
+        display: inline-block;
+        width: 200px;
+        border-radius: 4px;
+        border: 1px solid white;
+        float: right;
+        margin-right: 10px;
+        legend {text-align: center;}
+    }
+}
+
+@keyframes recBlink {
+    from {background: red;}
+    to {background: transparent;}
 }
 
 .track_from_rec {
