@@ -44,6 +44,8 @@ window.addEventListener('keypress', pressed => {
         if (box.selectedIndex - 1 === pressed[0]) {
             slice = box.closest('.track').querySelectorAll('.slicer')[pressed[1]];
             if (!slice) return;
+            slice.style.setProperty('background', 'rgba(255,255,255,.7)');
+            setTimeout( () => slice.style.setProperty('background', 'transparent'), 100);
             slice.onclick();
         }
     });

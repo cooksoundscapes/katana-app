@@ -58,6 +58,7 @@ export default function PlaySlice() {
         } else if (play_style === 'Slice') {
             length = length / slice_count;
             Players[group].start(0,start_point + start_slice, length);
+            slice.style.setProperty('background', 'rgba(255,255,255,.5)')
             setTimeout(() => slice.style.setProperty('background', 'transparent'), length*1000);
             return;
         } else { //OneShot
