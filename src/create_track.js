@@ -60,7 +60,9 @@ export default function createTrack(file) {
         Clips[id] = audioBuffer;
         waveDraw(Clips[id].getChannelData(0),canvas);
         },err => {
-            console.log("Unable to load file.");
+            alert("Unable to load file.");
+            console.log(err);
+            deleteTrack(track);
         }).finally( () => {
             loader.remove();
         });

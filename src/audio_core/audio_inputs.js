@@ -1,9 +1,11 @@
 import waveDraw, {audioScope} from '../wave_draw.js';
 import {audioctx, startDSP} from './audio_base.js';
+import createTrack from '../create_track.js';
 
 let rec;
-let recorded;
 let recordBuffer;
+let preview;
+let chunks = [];
 
 function stereoToMono(source) {
     // Seems like a linux related problem:
@@ -56,36 +58,36 @@ export function startRecStream() {
         audioScope(canvas,analysis,0);
 
         rec = new MediaRecorder(stream);
-        let chunks = [];
         rec.ondataavailable = event => {
             if (event.data) {
                 chunks.push(event.data);
             }
         }
         rec.onstart = () => {
+            chunks = [];
             audioScope.start();
         }
         rec.onstop = event => {
             audioScope.stop();
-            recorded = new Blob(chunks,{type: 'audio/wav'});
+            preview = new Blob(chunks);
+
             // pass the buffer to audioContext, for preview;
-            const newBuff = recorded.arrayBuffer().then(buffer => {
+            preview.arrayBuffer().then(buffer => {
                 audioctx.decodeAudioData(buffer)
                 .then(audioBuffer => {
                     recordBuffer = audioBuffer;
                     waveDraw(audioBuffer.getChannelData(0),canvas);
                 })
-                .finally( () => {
-                    chunks = [];
-                });
             });
         }
     });
 }
 
 export function trackFromRecord() {
-    const audioFile = new File(recorded, 'test.wav');
-    console.log(audioFile);
+    let record = new File(chunks,'test.wav', {type: 'audio/wav'});
+    createTrack(record);
+    const modal = document.querySelector('.recording');
+    modal.style.display = 'none';
 }
 
 export function startRecording() {
