@@ -3,6 +3,7 @@ import {audioctx,
         Players,
         startDSP,
         reverseClip,
+        groupChange,
         setSpeed} from './audio_core/audio_base.js';
 import syncTempo from './audio_core/sync_tempo.js';
 import trackWatchdog from './audio_core/track_watchdog.js';
@@ -80,7 +81,7 @@ export default function createTrack(file) {
     track_menu.appendChild(createDropdown('speed',['25%','50%','100%','150%','200%'],setSpeed,'100%'));
     track_menu.appendChild(createDropdown('keyrow',['None','QWERT...','ASDF...','ZXCV...'],setKeyRow));
     track_menu.appendChild(createNumberBox('Slices:','set_slices',[1,32],setSlices,8));
-    track_menu.appendChild(createNumberBox('Group:','set_group',[1,24],null,tracks_total+1));
+    track_menu.appendChild(createNumberBox('Group:','set_group',[1,24],groupChange,tracks_total+1));
     track_menu.appendChild(createButton('Delete','delete_track',deleteTrack));
     track_menu.className = 'track_menu';
     track.appendChild(track_menu);

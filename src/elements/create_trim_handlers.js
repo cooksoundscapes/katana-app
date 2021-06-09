@@ -27,7 +27,9 @@ function startDrag() {
     function onMove(ev) {
         ev.preventDefault();
         obj.style.left = Math.min(track.offsetWidth-2, ev.clientX)+'px';
-        let position = getTrimmedTime(track, ev.clientX);
+
+        // At this point, it shouldn't be here.
+        let position = positionToSeconds(track, ev.clientX);
         obj.setAttribute('position',position); // in seconds
         resizeAssets(ev.clientX);
     }
@@ -47,7 +49,7 @@ function startDrag() {
         // sum all shade area
         gray_areas.forEach(area => {gray_total += area.offsetWidth;});
         let real_length = track.offsetWidth - gray_total;
-        real_length = getTrimmedTime(track, real_length);
+        real_length = positionToSeconds(track, real_length);
         track.setAttribute('shade_area',gray_total);
         track.setAttribute('real_length', real_length);  // in seconds
         syncTempo(obj);
@@ -66,8 +68,8 @@ function startDrag() {
     }
 }
 
-function getTrimmedTime (track,trim) {
-    let ratio = trim / track.offsetWidth;
-    ratio = Clips[track.id].duration * ratio;
-    return ratio;
+function positionToSeconds (track,position) {
+    let seconds = position / track.offsetWidth;
+    seconds = Clips[track.id].duration * seconds;
+    return seconds;
 }

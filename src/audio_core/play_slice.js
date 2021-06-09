@@ -13,7 +13,6 @@ export default function PlaySlice() {
     let slice_count;
     let length;
     let rate;
-    let new_direction;
     let start_point;
     let end_point;
     let frame;
@@ -25,7 +24,6 @@ export default function PlaySlice() {
     playStart();
 
     function updateParams() {
-        new_direction = reverse != track.querySelector('.reverse').checked;
         reverse = track.querySelector('.reverse').checked;
         all_slices = track.querySelectorAll('.slicer');
         slice_count = all_slices.length;
@@ -52,19 +50,25 @@ export default function PlaySlice() {
         Players[group].buffer = Clips[id];
         Players[group].playbackRate.value = rate;
         Players[group].connect(masterVolume);
+
         if (play_style === 'Loop') {
             Players[group].loop = true;
             Players[group].start(0,start_point + start_slice);
+
         } else if (play_style === 'Slice') {
             length = length / slice_count;
             Players[group].start(0,start_point + start_slice, length);
             slice.style.setProperty('background', 'rgba(255,255,255,.5)')
             setTimeout(() => slice.style.setProperty('background', 'transparent'), length*1000);
             return;
+
         } else { //OneShot
             Players[group].start(0,start_point + start_slice, length - start_slice);
         }
-        all_slices.forEach(slice => {slice.style.setProperty('background', 'transparent');});
+
+        all_slices.forEach( slice => {
+            slice.style.background = 'transparent';
+        });
         cancelAnimationFrame(window[anim]);
         window[anim] = requestAnimationFrame(animationLoop);
     }
@@ -77,20 +81,20 @@ export default function PlaySlice() {
                 frame = 0;
                 start_slice = 0;
     		} else {
-                all_slices.forEach(slice => {slice.style.setProperty('background', 'transparent');});
+                Players[group].stop();
                 cancelAnimationFrame(window[anim]);
+                all_slices[position].style.setProperty('background', 'transparent');
                 return;
             }
 		}
 		position = Math.trunc(frame / (length/rate) * slice_count);
-        if (reverse) {
-            position = Math.abs(slice_count-1-position);
-            last_pos = (position == slice_count - 1 ? 0 : position + 1);
-        } else {
-            last_pos = (position == 0 ? slice_count : position) - 1;
+        if (reverse) position = Math.abs(slice_count-1-position);
+
+        if (position != last_pos) {
+            all_slices[position].style.setProperty('background', 'rgba(255,255,255,0.35)');
+            if (all_slices[last_pos]) all_slices[last_pos].style.setProperty('background', 'transparent');
+            last_pos = position;
         }
-        all_slices[position].style.setProperty('background', 'rgba(255,255,255,0.35)');
-        all_slices[last_pos].style.setProperty('background', 'transparent');
 		cancelAnimationFrame(window[anim]);
 		window[anim] = requestAnimationFrame(animationLoop);
 	}
