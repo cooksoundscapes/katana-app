@@ -5,10 +5,10 @@ export function createSpan(content,classname) {
     return span;
 }
 
-export function createButton(content,classname,ev) {
+export function createButton(content,classes,ev) {
     const button = document.createElement('button');
     button.textContent = content;
-    button.className = classname;
+    classes.forEach( cls => button.classList.add(cls));
     button.addEventListener('click',ev);
     return button;
 }
@@ -25,9 +25,18 @@ export function createDropdown(classname,items,ev,selected) {
         option.textContent = opt;
         selector.appendChild(option);
     });
+    selector.addEventListener('wheel',scrollWheel,{passive: true});
     selector.className = classname;
     selector.onchange = ev;
     return selector;
+}
+
+function scrollWheel(event) {
+    let present = this.selectedIndex;
+    let max = this.querySelectorAll('option').length;
+    present = Math.min(max-1,Math.max(0, parseInt(present+event.deltaY*.1)));
+    this.selectedIndex = present;
+    if (this.onchange) this.onchange(this);
 }
 
 export function createSlider(content,classname, range, step, ev, init) {

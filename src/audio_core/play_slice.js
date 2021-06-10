@@ -51,6 +51,11 @@ export default function PlaySlice() {
         Players[group].playbackRate.value = rate;
         Players[group].connect(masterVolume);
 
+        all_slices.forEach( slice => {
+            slice.style.background = 'transparent';
+        });
+        cancelAnimationFrame(window[anim]);
+
         if (play_style === 'Loop') {
             Players[group].loop = true;
             Players[group].start(0,start_point + start_slice);
@@ -65,11 +70,6 @@ export default function PlaySlice() {
         } else { //OneShot
             Players[group].start(0,start_point + start_slice, length - start_slice);
         }
-
-        all_slices.forEach( slice => {
-            slice.style.background = 'transparent';
-        });
-        cancelAnimationFrame(window[anim]);
         window[anim] = requestAnimationFrame(animationLoop);
     }
 

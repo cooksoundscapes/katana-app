@@ -6,6 +6,7 @@ let rec;
 let recordBuffer;
 let preview;
 let chunks = [];
+let streamOutside;
 
 function stereoToMono(source) {
     // Seems like a linux related problem:
@@ -51,9 +52,8 @@ export function startRecStream() {
     }
     navigator.mediaDevices.getUserMedia(audio_setup)
     .then(function(stream) {
-        const canvas = document.getElementById('record_plot');
-        canvas.width = canvas.offsetWidth;
-        canvas.height = canvas.offsetHeight;
+        streamOutside = stream;
+        const canvas = document.querySelector('.record_plot');
         const analysis = audioctx.createMediaStreamSource(stream);
         audioScope(canvas,analysis,0);
 
@@ -83,11 +83,13 @@ export function startRecStream() {
     });
 }
 
+export function stopRecStream() {
+    streamOutside.getTracks().forEach( track => track.stop());
+}
+
 export function trackFromRecord() {
     let record = new File(chunks,'test.wav', {type: 'audio/wav'});
     createTrack(record);
-    const modal = document.querySelector('.recording');
-    modal.style.display = 'none';
 }
 
 export function startRecording() {

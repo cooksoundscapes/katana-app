@@ -24,6 +24,7 @@
     width: 30vw;
     height: 100vh;
     padding: 3px;
+    padding-right: 1%;
     background-color: $base_gray;
     * {
         color: white;
@@ -32,6 +33,25 @@
         margin: 2px;
     }
     div {display: inline-block;}
+    .decibels {
+        display: inline-block;
+        width: 4.5em;
+        height: 1em;
+        span {margin: 0;}
+    }
+    .number_box {
+        color: yellow;
+        font-size: 1em;
+        float: right;
+        .set_bpm {
+            font-size: 2em;
+            color: yellow;
+            background: #151515;
+            border: 1px solid black;
+            width: 3em;
+        }
+    }
+    select {@include obj_defaults;}
 }
 
 .fileloader {
@@ -51,18 +71,22 @@
     padding: 2px;
 }
 
-.master_volume {
-    top: 120px;
-    left: 70px;
-    height: 8px;
-    border: 1px inset #707070;
-    background: #131313;
-    border-radius: 3px;
-    &::-webkit-slider-thumb {
-        width: 10px;
-        height: 20px;
-        border-radius: 2px;
-        border: 1px outset #555;
-        background: #444;
+.slider_container {
+    display: block;
+    margin-bottom: 4px;
+    .master_volume {
+        top: 120px;
+        left: 70px;
+        height: 8px;
+        border: 1px inset #707070;
+        background: #131313;
+        border-radius: 3px;
+        &::-webkit-slider-thumb {
+            width: 10px;
+            height: 20px;
+            border-radius: 2px;
+            border: 1px outset #555;
+            background: #444;
+        }
     }
 }

@@ -3,7 +3,6 @@
 import createTrack from './create_track.js';
 import './populate_nav_menu.js';
 import './idb.js';
-import './record_functions.js';
 import './style/style.scss';
 import './style/nav_menu.scss';
 import './style/track.scss';

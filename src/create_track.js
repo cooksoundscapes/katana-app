@@ -82,7 +82,7 @@ export default function createTrack(file) {
     track_menu.appendChild(createDropdown('keyrow',['None','QWERT...','ASDF...','ZXCV...'],setKeyRow));
     track_menu.appendChild(createNumberBox('Slices:','set_slices',[1,32],setSlices,8));
     track_menu.appendChild(createNumberBox('Group:','set_group',[1,24],groupChange,tracks_total+1));
-    track_menu.appendChild(createButton('Delete','delete_track',deleteTrack));
+    track_menu.appendChild(createButton('Delete',['delete_track'],deleteTrack));
     track_menu.className = 'track_menu';
     track.appendChild(track_menu);
     sliders_frame.className = 'trim_frame';

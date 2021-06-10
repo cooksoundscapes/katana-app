@@ -10,31 +10,7 @@
     <link href='https://fonts.googleapis.com/css?family=Material+Icons' rel='stylesheet'>
 <head>
 <body>
-    <div class='recording'>
-        <div class='record_box'>
-            <script>
-            function closeRecording() {
-                const modal = document.querySelector('.recording');
-                modal.style.display = 'none';
-            }
-            </script>
-            <span> Record using your mic or audio interface </span>
-            <span class='material-icons-outlined close' onclick='closeRecording()'>close</span>
-            <hr>
-            <canvas id='record_plot' width=200 height=160></canvas>
-            <select class='audio_devices'></select>
-            <button class='record_button material-icons'>stop_circle</button>
-            <button class='play_recorded material-icons-outlined'>play_circle</button>
-            <button class='track_from_rec'>create track</button>
-            <fieldset class='browser_fx'>
-                <legend>Browser Sound Effects</legend>
-                <label>
-                Noise Supressor
-                <input type='checkbox' />
-                </label>
-            </fieldset>
-        </div>
-    </div>
+
 	<nav class="nav_menu">
 		<label class='fileloader'>
             Open local file

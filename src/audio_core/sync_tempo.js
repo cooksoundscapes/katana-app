@@ -24,6 +24,7 @@ export function findTempo(track) {
 export default function syncTempo(caller) {
     const boxes = document.querySelectorAll('.syncmode');
     let track;
+
     caller = caller.className;
     boxes.forEach( box => {
         track = box.closest('.track');
