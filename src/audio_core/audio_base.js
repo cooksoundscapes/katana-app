@@ -1,15 +1,13 @@
 let audioctx;
 let masterVolume;
-const Clips = {};
 const Players = {};
+const Tracks = [];
 
-import {tracks_total} from '../create_track.js';
 import waveDraw from '../wave_draw.js';
 
 export function debug() {
-    console.log(Clips);
     console.log(Players);
-    console.log(tracks_total);
+    console.log(Tracks);
 }
 
 export function startDSP() {
@@ -31,42 +29,40 @@ export function setMasterVol() {
     decibels.innerHTML = real_value+'dB';
 }
 
+export function getTrack(id) {
+    return Tracks.find(trk => trk.id === id);
+}
+
 export function ratioTodB(ratio) {
     return 20 * Math.log10(ratio);
 }
 
 export function reverseClip() {
 	let id = this.closest('.track').id;
-    for (let i = 0; i < Clips[id].numberOfChannels; i++) {
-        Clips[id].getChannelData(i).reverse();
+    const player = getTrack(id);
+    player.reverse = this.checked;
+    for (let i = 0; i < player.clip.numberOfChannels; i++) {
+        player.clip.getChannelData(i).reverse();
     }
 }
 
-export function setSpeed() {
-    const track = this.closest('.track');
-    let value = this.value;
-    value = parseFloat(value.replace('%','')) / 100;
-    track.setAttribute('speed',value);
-}
-
 export function groupChange() {
-    let track = this.closest('.track');
-    let last = this.getAttribute('previous') | 0;
+    const track = this.closest('.track');
+    const player = getTrack(track.id);
+    let last = this.getAttribute('previous');
     if (last != this.value) {
         if (Players[last]) {
             let slices = track.querySelectorAll('.slicer');
             let groups = document.querySelectorAll('.set_group');
-            let anim = last+'_anim';
-
             let isusing = [...groups].some(a => parseInt(a.value) == last);
             if (!isusing) {
-                Players[last].stop();
-                cancelAnimationFrame(window[anim]);
-                slices.forEach( slice => slice.style.background = 'transparent' );
+                player.stop();
+                console.log('stopping');
             }
         }
+        player.group = this.value;
         this.setAttribute('previous', this.value);
     }
 }
 
-export {audioctx, Clips, Players, masterVolume};
+export {audioctx, Players, Tracks, masterVolume};

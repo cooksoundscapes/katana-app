@@ -1,0 +1,79 @@
+@use 'library' as *;
+
+.metronome_box {
+    border: 1px solid #151515;
+    border-radius: 2px;
+    vertical-align: middle;
+    * {
+        font: 1em;
+    }
+    button {
+        @include orange_button;
+    }
+    .toggle_button {
+        @include default_toggle;
+        height: 17px;
+    }
+    .play_animation {
+        display: inline-block;
+        position: relative;
+        vertical-align: middle;
+        width: 40px;
+        height: 19px;
+        border-radius: 10px;
+        border: 1px solid #151515;
+        transition: .2s;
+        &[playing=true] {
+                background: #303030;
+            }
+        &[playing=true]:after {
+            content: "";
+            position: absolute;
+            top: -2px;
+            left: -1px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #DDD;
+            offset-path: path('M8 10 C16 0 24 20 32 10 24 0 16 20 8 10');
+            animation: move var(--speed,1000ms) linear infinite;
+            box-shadow: 0 0 10px teal;
+        }
+    }
+    .measure_box {
+        display: inline-block;
+        * {
+        color: white;
+        }
+        .number_box {
+            input {
+                margin: 0;
+                width: 2em;
+                background: transparent;
+                border: none;
+                /*&:focus-visible {
+                    that's for the ugly black frame!!
+                }*/
+                &:hover {
+                    background: #ffffff55;
+                }
+            }
+        }
+    }
+    .number_box {
+        color: yellow;
+        vertical-align: middle;
+        .set_bpm {
+            font-size: 1.5em;
+            color: yellow;
+            background: #151515;
+            border: 1px solid black;
+            width: 3em;
+        }
+    }
+}
+
+@keyframes move {
+    0% {offset-distance: 0%;}
+    100% {offset-distance: 100%;}
+}

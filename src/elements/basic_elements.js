@@ -8,7 +8,7 @@ export function createSpan(content,classname) {
 export function createButton(content,classes,ev) {
     const button = document.createElement('button');
     button.textContent = content;
-    classes.forEach( cls => button.classList.add(cls));
+    if (classes) classes.forEach( cls => button.classList.add(cls));
     button.addEventListener('click',ev);
     return button;
 }
@@ -25,16 +25,17 @@ export function createDropdown(classname,items,ev,selected) {
         option.textContent = opt;
         selector.appendChild(option);
     });
-    selector.addEventListener('wheel',scrollWheel,{passive: true});
+    selector.addEventListener('wheel',scrollWheel,false);
     selector.className = classname;
     selector.onchange = ev;
     return selector;
 }
 
 function scrollWheel(event) {
+    event.preventDefault();
     let present = this.selectedIndex;
     let max = this.querySelectorAll('option').length;
-    present = Math.min(max-1,Math.max(0, parseInt(present+event.deltaY*.1)));
+    present = Math.min(max-1,Math.max(0, parseInt(present+event.deltaY*.02)));
     this.selectedIndex = present;
     if (this.onchange) this.onchange(this);
 }
@@ -93,14 +94,18 @@ function verticalDrag(dragev) {
     const obj = this;
     // multiply coordinates by .2 to slow down the change;
     let last_y = (.2*dragev.clientY) + parseFloat(obj.value);
-    last_y = Number.isNaN(last_y) ? obj.min : last_y;
+    //last_y = Number.isNaN(last_y) ? obj.min : last_y;
     let change;
     window.onmousemove = moveev => {
         document.body.style.cursor = 'n-resize';
         moveev.preventDefault();
         change = Math.trunc(last_y - (.2*moveev.clientY));
-        obj.value = Math.min(obj.max,Math.max(obj.min,change));
-        if (obj.onchange) {obj.onchange();}
+        change = Math.min(obj.max,Math.max(obj.min,change));
+        if (change != parseFloat(obj.value)) {
+            obj.value = change;
+            if (obj.onchange) {obj.onchange();}
+        }
+
     }
     window.onmouseup = () => {
         document.body.style.cursor = 'default';

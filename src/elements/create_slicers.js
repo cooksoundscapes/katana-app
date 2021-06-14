@@ -1,29 +1,30 @@
-import PlaySlice from '../audio_core/play_slice.js';
+import {getShadeArea} from './create_trim_handlers.js';
+import {getTrack} from '../audio_core/audio_base.js';
 
-export function createSlicers(track,divisions) {
+export default function createSlicers(track,divisions) {
     let list;
     if (list = track.querySelectorAll('.slicer')) {
         list.forEach( slice => {slice.remove();} );
     }
     let slicer;
-    const shade_area = parseInt(track.getAttribute('shade_area')) || 0;
+    let shadeArea = getShadeArea(track);
     const start_x = track.querySelector('.start_point').offsetLeft;
-    const width = (track.offsetWidth - shade_area) / divisions;
+    const width = (track.offsetWidth - shadeArea) / divisions;
     for (let i = 0; i < divisions; i++) {
         slicer = document.createElement('button');
         slicer.className = 'slicer';
         slicer.style.width = width+'px';
         slicer.style.left = (i * width)+start_x+'px';
         slicer.setAttribute('index',i);
-        slicer.onclick = PlaySlice;
+        slicer.onclick = playSlice;
         track.appendChild(slicer);
     }
     const grid_select = track.querySelector('.keyrow');
     grid_select.onchange();
 }
 
-export function setSlices () {
-    const track = this.closest('.track');
-    const value = this.value;
-    createSlicers(track,value);
+function playSlice() {
+    const id = this.closest('.track').id;
+    const player = getTrack(id);
+    player.start(this);
 }

@@ -4,9 +4,8 @@ import createTrack from './create_track.js';
 import './populate_nav_menu.js';
 import './idb.js';
 import './style/style.scss';
-import './style/nav_menu.scss';
-import './style/track.scss';
-import './style/record_window.scss';
+import Metronome from './audio_core/metronome.js';
+import {startDSP} from './audio_core/audio_base.js';
 
 let fileloader = document.querySelector('.fileloader');
 fileloader.addEventListener('change',files => {
@@ -25,4 +24,7 @@ window.addEventListener("drop",function(event) {
 	file_list = [...file_list];
 	file_list.forEach(createTrack);
 },false);
+
+startDSP();
+window.Metronome = new Metronome();
 

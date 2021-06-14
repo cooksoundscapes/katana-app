@@ -1,11 +1,12 @@
-@use 'style' as *;
+@use 'library' as *;
 
 $track_width: 70vw;
-$track_height: 150px;
+$track_height: 160px;
 
 .track {
     position: relative;
 	margin-top: 1px;
+    padding-top: 2px;
 	left: 0;
 	width: $track_width;
 	height: $track_height;
@@ -15,73 +16,45 @@ $track_height: 150px;
 	animation: fadeIn .5s;
     z-index: 0;
     font-size: 10px;
+    .track_menu {
+        white-space: nowrap;
+        height: 21px;
+        width: 100%;
+        &::-webkit-scrollbar {
+            width: 8px;
+            border: 1px solid #d5d5d5;
+        }
+    }
     canvas {
         position: absolute;
-        top: 30px;
+        top: 40px;
         left: 0;
         z-index: 0;
         background-color: transparent;
     }
     select, .filename {
         @include obj_defaults;
+        height: 19px;
         overflow: hidden;
         white-space: nowrap;
     }
+    .filename {width: 80px;}
     .number_box {
-        height: 15px;
         margin-left: 2px;
         input {
             @include obj_defaults;
         }
     }
-    .delete_track {
-        @include obj_defaults;
+    .delete_track, .export_wav {
         @include orange_button;
+        margin-right: 2px;
         float: right;
     }
-    div {display: inline-block;}
-    .toggle_button {
-        @include obj_defaults;
-        width: 50px;
-        height: 15px;
-        border: none;
-        border-radius: 4px;
-        background: #c67100;
-        color: black;
-        padding: 0;
-        input {
-            display: none;
-        }
-        span {
-            position: relative;
-            display: inline-block;
-            padding-top: 2px;
-            text-align: center;
-            width: 100%;
-            height: 100%;
-            transition: .2s;
-            &:hover {
-                background: #ffe97d;
-            }
-        }
-        input:checked + span {
-            background: orange;
-            color: black;
-            &:hover {
-                background: #ffe97d;
-            }
-        }
-    }
-}
 
-.track_menu {
-    white-space: nowrap;
-    .number_box input {width: 30px}
-    height: 21px;
-    width: 100%;
-    &::-webkit-scrollbar {
-        width: 4px;
-        border: 1px solid #d5d5d5;
+    div {display: inline-block;}
+
+    .toggle_button {
+        @include default_toggle;
     }
 }
 
@@ -92,13 +65,12 @@ $track_height: 150px;
 
 .trim_frame {
     position: absolute;
-    top: 21px;
+    top: 22px;
     left: 0;
     width: 100%;
-    height: 9px;
-    background: stripes($div_gray, black, $track_width / 8);
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
+    height: 18px;
+    background: $div_gray;
+    border: 1px solid black;
     z-index: 0;
 }
 
@@ -124,7 +96,7 @@ $track_height: 150px;
 .slicer {
     position: absolute;
     display: flex;
-    top: 30px;
+    top: 40px;
     height: 120px;
     background: transparent;
     border: none;
@@ -144,16 +116,25 @@ $track_height: 150px;
 
 .trim_handler {
     position: absolute;
-    top: 22px;
+    top: 23px;
     left: 0;
     width: 2px;
-    height: 130px;
+    height: 140px;
     background-color: orange;
     z-index: 6;
     &:before {
         content: "";
         position: absolute;
         top: 0px;
+        left: -3px;
+        width: 8px;
+        height: 10px;
+        background: orange;
+    }
+    &:after {
+        content: '';
+        position: absolute;
+        top: 10px;
         left: -3px;
         width: 0;
         height: 0;
@@ -165,7 +146,7 @@ $track_height: 150px;
 
 .gray_area {
     position: absolute;
-    top: 30px;
+    top: 40px;
     left: 0;
     width: 0;
     height: 120px;

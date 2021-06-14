@@ -35,12 +35,12 @@ export function updateDb(file,id) {
 
 window.onload = function() {
     let request = OpenIDBRequest();
-    request.onsuccess = function() {
+    request.onsuccess = () => {
         let db = request.result;
         let transaction = db.transaction('files','readonly');
         let objStore = transaction.objectStore('files');
         let tryGet = objStore.getAll();
-        tryGet.onsuccess = function () {
+        tryGet.onsuccess = () => {
             let result = tryGet.result;
             result.forEach(file => createTrack(file));
             db.close();

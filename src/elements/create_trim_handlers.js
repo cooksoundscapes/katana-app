@@ -1,4 +1,4 @@
-import {Clips} from '../audio_core/audio_base.js';
+import {getTrack} from '../audio_core/audio_base.js';
 import syncTempo from '../audio_core/sync_tempo.js';
 
 export function createGrayArea(start_x) {
@@ -12,7 +12,6 @@ export function createTrimHandler(start_position, id) {
     let handler = document.createElement('div');
     handler.className = 'trim_handler';
     handler.classList.add(id);
-    handler.setAttribute('position',0); // might be problematic for end points; fix?
     handler.addEventListener('mousedown',startDrag);
     handler.style.left = start_position + 'px';
     return handler;
@@ -21,46 +20,19 @@ export function createTrimHandler(start_position, id) {
 function startDrag() {
     const obj = this;
     const track = obj.closest('.track');
-    window.onmousemove = onMove;
-    // for now, 'this' will be referenced as obj
-
-    function onMove(ev) {
+    const player = getTrack(track.id);
+    window.onmousemove = ev => {
         ev.preventDefault();
-        obj.style.left = Math.min(track.offsetWidth-2, ev.clientX)+'px';
-
-        // At this point, it shouldn't be here.
-        let position = positionToSeconds(track, ev.clientX);
-        obj.setAttribute('position',position); // in seconds
-        resizeAssets(ev.clientX);
-    }
-
-    function resizeAssets(new_x) {
-        const slices = track.querySelectorAll('.slicer');
-        const gray_areas = track.querySelectorAll('.gray_area');
-        let gray_total = 0;
-
-        //update shade areas
+        let new_x = ev.clientX;
+        obj.style.left = Math.min(track.offsetWidth-2, new_x)+'px';
+        player.trimHandler(obj);
         if(obj.previousSibling.className === 'gray_area') {
             obj.previousSibling.style.width = new_x+'px';
         } else if (obj.nextSibling.className === 'gray_area') {
             obj.nextSibling.style.left = new_x+2+'px';
             obj.nextSibling.style.width = track.offsetWidth - new_x+'px';
         }
-        // sum all shade area
-        gray_areas.forEach(area => {gray_total += area.offsetWidth;});
-        let real_length = track.offsetWidth - gray_total;
-        real_length = positionToSeconds(track, real_length);
-        track.setAttribute('shade_area',gray_total);
-        track.setAttribute('real_length', real_length);  // in seconds
-        syncTempo(obj);
-
-        // resize / move all slices
-        let new_width = (track.offsetWidth - gray_total) / slices.length;
-        slices.forEach( slice => {
-            slice.style.width = new_width + 'px';
-            slice.style.left = slice.getAttribute('index') * new_width +
-                track.querySelector('.start_point').offsetLeft + 'px';
-        });
+        resizeSlices(track);
     }
     window.onmouseup = () => {
         window.onmousemove = null;
@@ -68,8 +40,20 @@ function startDrag() {
     }
 }
 
-function positionToSeconds (track,position) {
-    let seconds = position / track.offsetWidth;
-    seconds = Clips[track.id].duration * seconds;
-    return seconds;
+export function getShadeArea(track) {
+    let area = track.querySelectorAll('.gray_area');
+    area = [...area].map(obj => obj.offsetWidth);
+    area = area.reduce( (a,b) => a+b );
+    return area;
+}
+
+function resizeSlices(track) {
+    const slices = track.querySelectorAll('.slicer');
+    let shadeArea = getShadeArea(track);
+    let new_width = (track.offsetWidth - shadeArea) / slices.length;
+        slices.forEach( slice => {
+            slice.style.width = new_width + 'px';
+            slice.style.left = slice.getAttribute('index') * new_width +
+                track.querySelector('.start_point').offsetLeft + 'px';
+        });
 }

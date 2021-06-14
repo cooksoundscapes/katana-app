@@ -63,12 +63,10 @@ export function startRecStream() {
                 chunks.push(event.data);
             }
         }
-        rec.onstart = () => {
-            chunks = [];
-            audioScope.start();
-        }
         rec.onstop = event => {
             audioScope.stop();
+            let recbtn = document.querySelector('.record_button');
+            recbtn.disabled = true;
             preview = new Blob(chunks);
 
             // pass the buffer to audioContext, for preview;
@@ -83,12 +81,24 @@ export function startRecStream() {
     });
 }
 
+export function clearRec() {
+    chunks = [];
+    audioScope.start();
+    let recbtn = document.querySelector('.record_button');
+    recbtn.disabled = false;
+}
+
 export function stopRecStream() {
     streamOutside.getTracks().forEach( track => track.stop());
 }
 
 export function trackFromRecord() {
-    let record = new File(chunks,'test.wav', {type: 'audio/wav'});
+    let time = new Date().toString().split(' ');
+    time.splice(5,5);
+    time = time.join('-');
+    let name = prompt('Clip name:', time);
+    if (name === null) return;
+    let record = new File(chunks,name+'.wav', {type: 'audio/wav'});
     createTrack(record);
 }
 
