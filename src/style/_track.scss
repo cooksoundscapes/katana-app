@@ -56,6 +56,24 @@ $track_height: 160px;
     .toggle_button {
         @include default_toggle;
     }
+    .slider {
+        margin-left: 2px;
+        input {
+            vertical-align: middle;
+            height: 17px;
+            width: 60px;
+            background: $div_gray;
+            border: 1px solid black;
+            &::-webkit-slider-thumb {
+                height: 17px;
+                background: orange;
+                width: 3px;
+            }
+            &::-webkit-slider-runnable-track {
+                background: linear-gradient(to right, #c6710055 var(--lower,100%), #c6710055 1px, #ffffff00 1px, #ffffff00 var(--upper,0));
+            }
+        }
+    }
 }
 
 @keyframes fadeIn {
