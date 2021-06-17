@@ -1,5 +1,5 @@
 import {getTrack} from '../audio_core/audio_base.js';
-import syncTempo from '../audio_core/sync_tempo.js';
+import {syncTempo} from '../audio_core/sync_tempo.js';
 
 export function createGrayArea(start_x) {
     let gray_area = document.createElement('div');

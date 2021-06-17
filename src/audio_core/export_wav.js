@@ -1,41 +1,74 @@
 import {OpenIDBRequest} from '../idb.js';
-import {getTrack} from './audio_base.js';
+import {audioctx, getTrack} from './audio_base.js';
 import {createButton} from '../elements/basic_elements.js';
+import waveDraw from '../wave_draw.js';
 
-export default function exportWav() {
-    let id = this.closest('.track').id;
-    let track = getTrack(id);
-    let req = OpenIDBRequest();
-    console.log(track.startPoint+' '+track.endPoint);
-    req.onsuccess = () => {
-        let db = req.result;
-        let transaction = db.transaction('files','readonly');
-        let objStore = transaction.objectStore('files');
-        let find = objStore.get(id);
-        find.onsuccess = () => {
-            let name = find.result.name;
-            let bin = new Blob([find.result], {type: 'audio/wav'});
+const toWav = require('audiobuffer-to-wav');
+
+export default function exportWindow() {
+    const id = this.closest('.track').id;
+    const modal = document.createElement('div');
+    const head = document.createElement('p');
+    const box = document.createElement('div');
+    modal.className = 'export_modal';
+    box.className = 'export_window';
+    head.textContent = 'Export options for '+id;
+    box.appendChild(head);
+    box.appendChild(createButton('Entire Track',null,exportWav));
+    box.appendChild(createButton('Remove trimmed parts',null,renderWav));
+    const canvas = document.createElement('canvas');
+    canvas.width = 100;
+    canvas.height = 60;
+    box.appendChild(canvas);
+    modal.appendChild(box);
+    document.body.appendChild(modal);
+
+    window.onclick = event => {
+        if (event.target == modal) {
+            modal.remove();
+            window.onclick = null;
+        }
+    }
+    function renderWav() {
+        const player = getTrack(id);
+        let newSize = parseInt(player.length * audioctx.sampleRate); //in samples!;
+        let offline = new OfflineAudioContext(1,newSize,audioctx.sampleRate);
+        let source = offline.createBufferSource();
+        source.buffer = player.clip;
+        source.connect(offline.destination);
+        source.start(0,player.startPoint);
+        offline.startRendering().then( buf => {
+            waveDraw(buf.getChannelData(0),canvas);
+            let wav = toWav(buf);
+            let bin = new Blob([new DataView(wav)], {type: 'audio/wav'});
             let a = document.createElement('a');
             let url = URL.createObjectURL(bin);
-            console.log(url);
             a.href = url;
-            a.download = name;
+            a.download = 'test';
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
-        };
+        });
     }
-}
-
-function exportWindow() {
-    const modal = document.createObject('div');
-    const box = document.createObject('div');
-    const prompt = document.createObject('p');
-    modal.className = 'export_window';
-    box.className = 'export_window_prompt';
-    box.appendChild(prompt);
-    box.appendChild(createButton('Entire Track',null,null));
-    box.appendChild(createButton('Remove trimmed parts',null,null));
-    modal.appendChild(box);
-    document.body.appendChild(modal);
+    function exportWav() {
+        let track = getTrack(id);
+        let req = OpenIDBRequest();
+        req.onsuccess = () => {
+            let db = req.result;
+            let transaction = db.transaction('files','readonly');
+            let objStore = transaction.objectStore('files');
+            let find = objStore.get(id);
+            find.onsuccess = () => {
+                let name = find.result.name;
+                let bin = new Blob([find.result], {type: 'audio/wav'});
+                let a = document.createElement('a');
+                let url = URL.createObjectURL(bin);
+                a.href = url;
+                a.download = name;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            };
+        }
+    }
 }

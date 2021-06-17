@@ -55,6 +55,8 @@ $track_height: 160px;
 
     .toggle_button {
         @include default_toggle;
+        width: 55px;
+        height: 16px;
     }
     .slider {
         margin-left: 2px;
@@ -74,11 +76,6 @@ $track_height: 160px;
             }
         }
     }
-}
-
-@keyframes fadeIn {
-	0% {opacity: 0;}
-	100% {opacity: 1;}
 }
 
 .trim_frame {
@@ -173,3 +170,22 @@ $track_height: 160px;
     z-index: 10;
 }
 
+.snap_loader svg {
+    position: relative;
+    width: 16px;
+    height: 16px;
+    left: 20px;
+    transform: rotate(270deg);
+    circle {
+        stroke: white;
+        stroke-width: 8px;
+        fill: transparent;
+        stroke-dasharray: 25;
+        animation: snapLoad var(--duration, 1s) linear;
+    }
+}
+
+@keyframes snapLoad {
+    0% {stroke-dashoffset: 25;}
+    100% {stroke-dashoffset: 0;}
+}

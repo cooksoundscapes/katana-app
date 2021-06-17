@@ -4,12 +4,13 @@ import {audioctx,
         startDSP,
         reverseClip,
         groupChange} from './audio_core/audio_base.js';
-import syncTempo from './audio_core/sync_tempo.js';
+import {syncTempo} from './audio_core/sync_tempo.js';
 import samplePlayer from './audio_core/sample_player.js';
 import {createSimpleLabel,
         createToggle,
         createDropdown,
         createButton,
+        createSlider,
         createNumberBox} from './elements/basic_elements.js';
 import {createGrayArea,
         createTrimHandler} from './elements/create_trim_handlers.js';
@@ -18,7 +19,7 @@ import {OpenIDBRequest,
         updateDb} from './idb.js';
 import waveDraw from './wave_draw.js';
 import setKeyRow from './keyboard_events.js';
-import exportWav from './audio_core/export_wav.js';
+import exportWindow from './audio_core/export_wav.js';
 
 let tracks_total = 0;
 
@@ -81,13 +82,14 @@ export default function createTrack(file) {
     track_menu.appendChild(filename);
 	track_menu.appendChild(createDropdown('playstyle',['OneShot','Loop','Slice'],setPlayStyle));
     track_menu.appendChild(createDropdown('syncmode',['Free','Follow','Lead'],syncTempo));
-    track_menu.appendChild(createToggle('Beat Snap','snap_to_grid',null));
+    track_menu.appendChild(createToggle('Beat Snap','snap_to_grid', snapToGrid));
     track_menu.appendChild(createToggle('Reverse','reverse',reverseClip));
     track_menu.appendChild(createDropdown('speed',['25%','50%','100%','150%','200%'],setSpeed,'100%'));
     track_menu.appendChild(createDropdown('keyrow',['None','QWERT...','ASDF...','ZXCV...'],setKeyRow));
     track_menu.appendChild(createNumberBox('Slices:','set_slices',[1,32],setSlices,8));
     track_menu.appendChild(createNumberBox('Group:','set_group',[1,24],groupChange,tracks_total+1));
-    track_menu.appendChild(createButton('Export',['export_wav'],exportWav));
+    track_menu.appendChild(createSlider(null,'track_gain',[0,1],.001,setTrackGain,1));
+    track_menu.appendChild(createButton('Export',['export_wav'],exportWindow));
     track_menu.appendChild(createButton('Delete',['delete_track'],deleteTrack));
     track_menu.className = 'track_menu';
     track.appendChild(track_menu);
@@ -108,16 +110,13 @@ export default function createTrack(file) {
 }
 
 function setPlayStyle() {
-    let state = event.target.value;
-    let id = event.target.closest('.track').id;
-    let player = getTrack(id);
-    player.playStyle = state;
+    let player = getTrack(this.closest('.track').id);
+    player.playStyle = event.target.value;
 }
 
 function setSpeed() {
     let value = event.target.value;
-    const track = event.target.closest('.track');
-    const player = getTrack(track.id);
+    const player = getTrack(this.closest('.track').id);
     value = parseFloat(value.replace('%','')) / 100;
     player.speed = value;
 }
@@ -129,4 +128,19 @@ function setSlices () {
     const player = getTrack(track.id);
     player.allSlices = track.querySelectorAll('.slicer');
     player.sliceCount = this.value;
+}
+
+function setTrackGain() {
+    const player = getTrack(this.closest('.track').id);
+    let gain = parseFloat(event.target.value);
+    player.gain = gain ** 2;
+    let lower = gain * 100;
+    let upper = 100 - (gain * 100);
+    event.target.style.setProperty('--lower',lower+'%');
+    event.target.style.setProperty('--upper',upper+'%');
+}
+
+function snapToGrid() {
+    let player = getTrack(this.closest('.track').id);
+    player.snapToGrid = event.target.checked;
 }

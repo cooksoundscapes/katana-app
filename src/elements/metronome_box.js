@@ -2,7 +2,7 @@ import {createNumberBox,
         createButton,
         createToggle,
         createSpan} from './basic_elements.js';
-import {setBPM} from '../audio_core/sync_tempo.js';
+import {setBPM, syncTempo} from '../audio_core/sync_tempo.js';
 import {Tracks} from '../audio_core/audio_base.js';
 
 
@@ -14,10 +14,7 @@ export default function createMetronomeBox() {
         Tracks.forEach(player => player.stop());
         play_animation.setAttribute('playing',false);
     }));
-    box.appendChild(createButton('Play',['global_play_button'],() => {
-        Metronome.start();
-        play_animation.setAttribute('playing',true);
-    }));
+    box.appendChild(createButton('Play',['global_play_button'],() => Metronome.start()));
     box.appendChild(createToggle('Click','click_audit',() => Metronome.audible = event.target.checked));
     const play_animation = document.createElement('div');
     play_animation.className = 'play_animation';
@@ -45,4 +42,9 @@ function powerOfTwo() {
 function setBar() {
     let v = parseInt(this.value);
     Metronome.barLength = v;
+    while (v >= 2) {
+        v = v/2;
+    }
+    Metronome.barRatio = v;
+    syncTempo(this);
 }

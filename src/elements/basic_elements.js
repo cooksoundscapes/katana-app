@@ -50,7 +50,7 @@ export function createSlider(content,classname, range, step, ev, init) {
     slider.step = step;
     slider.value = init;
 	slider.addEventListener('input',ev);
-    label.className = 'slider_container';
+    label.className = 'slider';
     label.textContent = content;
     label.appendChild(slider);
 	return label;

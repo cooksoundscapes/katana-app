@@ -36,7 +36,8 @@
             border-radius: 50%;
             background: #DDD;
             offset-path: path('M8 10 C16 0 24 20 32 10 24 0 16 20 8 10');
-            animation: move var(--speed,1000ms) linear infinite;
+            animation: move var(--speed,1000ms) linear infinite,
+                       blink calc(var(--speed,1000ms)*2) linear infinite;
             box-shadow: 0 0 10px teal;
         }
     }
@@ -76,4 +77,9 @@
 @keyframes move {
     0% {offset-distance: 0%;}
     100% {offset-distance: 100%;}
+}
+
+@keyframes blink {
+    0% {background: orange;}
+    10% {background: #DDD;}
 }

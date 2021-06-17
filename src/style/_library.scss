@@ -13,6 +13,11 @@ $div_gray: #353534;
     @return repeating-linear-gradient(to bottom, $color2, $color2 1px, $color1 1px, $color1 $segment), repeating-linear-gradient(to right, $color2, $color2 1px, $color1 1px, $color1 $segment);
 }
 
+@keyframes fadeIn {
+	0% {opacity: 0;}
+	100% {opacity: 1;}
+}
+
 @mixin defaults {
     display: inline-block;
     font-weight: 500;
