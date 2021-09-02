@@ -1,2 +1,2 @@
-***Slowly Moving to Next.js ***
-project now on 'new-katana' repo;
+***Slowly Moving to Somewhere else ***
+but still works! 
